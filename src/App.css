@@ -1,0 +1,38 @@
+/* pages */
+.text-wrapper {
+  color: #15779d;
+}
+.blocks {
+  background-color: #15779d;
+}
+/* BlockA */
+.blockA:hover {
+  /* background-color: red; */
+}
+
+/* Navbar.jsx css */
+.navbar {
+  height: 16.67vh;
+  background-color: #15779d;
+}
+
+/* pages-blocka */
+.pages-blocka {
+  height: 83.33vh;
+}
+
+.classes1 {
+  background-color: #15779d;
+}
+
+/* confirm.jsx */
+.confirm {
+  height: 83.33vh;
+}
+
+.btn2 {
+  background-color: #15779d;
+}
+.btn1 {
+  background-color: #15779d;
+}
