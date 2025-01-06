@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Confirm = () => {
   const location = useLocation();
@@ -7,13 +7,12 @@ const Confirm = () => {
   const { fullCode } = location.state || {}; // Get fullCode from state
 
   const handleYes = () => {
-    console.log(`Confirmed action for class ${fullCode}`);
-    navigate(-1); // Navigate back to the previous page
+    navigate("/time-selection", { state: { fullCode } }); // Navigate to TimeSelection
   };
 
   const handleNo = () => {
     console.log("Action canceled");
-    navigate(-1); // Navigate back to the previous page
+    navigate(-1); // Go back
   };
 
   return (

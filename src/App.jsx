@@ -4,6 +4,8 @@ import Navbar from "./pages/Navbar";
 import Body from "./pages/Body";
 import Confirm from "./pages/Comfirm";
 import SubclassesByBlock from "./pages/SubclassesByBlock";
+import TimeSelection from "./pages/TimeSelection";
+import Success from "./pages/Success"
 
 const App = () => {
   return (
@@ -34,6 +36,24 @@ const App = () => {
               <Navbar />
               <Confirm />
             </>
+          }
+        />
+        <Route
+          path="/time-selection"
+          element={
+            <>
+              <Navbar />
+              <TimeSelection />
+             </>
+          }
+        />
+        <Route
+          path="/success"
+          element={
+            <>
+              <Navbar />
+              <Success />
+              </>
           }
         />
       </Routes>
