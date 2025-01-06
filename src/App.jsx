@@ -6,6 +6,7 @@ import Confirm from "./pages/Comfirm";
 import SubclassesByBlock from "./pages/SubclassesByBlock";
 import TimeSelection from "./pages/TimeSelection";
 import Success from "./pages/Success"
+import Login from "./pages/Login"
 
 const App = () => {
   return (
@@ -53,6 +54,14 @@ const App = () => {
             <>
               <Navbar />
               <Success />
+              </>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <>
+               <Login />
               </>
           }
         />
