@@ -2,9 +2,9 @@ import React from 'react'
  import { HiOutlineHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { FaRegMessage } from "react-icons/fa6";
-import { IoIosLogOut } from "react-icons/io";
  import '../App.css'
 import logo from '../assets/culogo.png'
+import LogoutButton from "../components/LogoutButton.jsx";
 // import { Link } from 'react-router-dom';
 
  
@@ -31,10 +31,7 @@ const Navbar = () => {
           <FaRegMessage size={25}/>
           <p>Suggestions</p>
         </div> 
-        <div className="p-4  cursor-pointer ">
-          <IoIosLogOut size={25}/>
-          <p>Logout</p>
-        </div> 
+        <LogoutButton />
       </div>
     </div>
  )   
