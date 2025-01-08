@@ -26,14 +26,15 @@ export const AuthProvider = ({ children }) => {
                         localStorage.setItem("courseRep", JSON.stringify(courseRepData));
                     } else {
                         setCourseRep(null);
-                        localStorage.removeItem("courseRep");
                     }
                 } catch (error) {
                     console.error("Error fetching CourseRep data:", error);
+                    if (error.code === 'unavailable') {
+                        alert("You are currently offline. Please check your internet connection.");
+                    }
                 }
             } else {
                 setCourseRep(null);
-                localStorage.removeItem("courseRep");
             }
 
             setLoading(false);
@@ -49,4 +50,5 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
+ 
 export const useAuth = () => useContext(AuthContext);

@@ -7,3 +7,6 @@ const Success = () => {
 }
 
 export default Success
+
+
+// after 5 sec it goes back home 

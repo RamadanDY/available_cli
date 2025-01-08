@@ -8,7 +8,7 @@ import TimeSelection from "./pages/TimeSelection";
 import Success from "./pages/Success";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from  "./context/AuthContext"
 
 const App = () => {
     return (

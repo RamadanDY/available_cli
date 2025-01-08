@@ -1,11 +1,23 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import {useAuth} from "../context/AuthContext";
 
+// import useAuth here to grab the data of the representative
 const Confirm = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { fullCode } = location.state || {}; // Get fullCode from state
+ const {courseRep} = useAuth(); // grab the data of the representative
 
+ //courseName as course 
+//  level is levelname 
+// representativeId is the courseRepId
+
+// course: courseRep.courseName
+// level: courseRep.levelName
+// representativeId: courseRep.id
+// all this above with the time range 
+ console.log(courseRep)
   const handleYes = () => {
     navigate("/time-selection", { state: { fullCode } }); // Navigate to TimeSelection
   };
