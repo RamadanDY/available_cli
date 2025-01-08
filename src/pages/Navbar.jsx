@@ -5,11 +5,17 @@ import { FaRegMessage } from "react-icons/fa6";
  import '../App.css'
 import logo from '../assets/culogo.png'
 import LogoutButton from "../components/LogoutButton.jsx";
-// import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+ // import { Link } from 'react-router-dom';
 
  
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const gotobookings = () => {
+    navigate("/getbookings")
+  }
   return (
     <div className='navbar flex  items-center justify-between    ' >
       <div className="img-wrapper pl-20 items-center flex-row flex gap-4 cursor-pointer  ">
@@ -19,9 +25,9 @@ const Navbar = () => {
         </h3>
       </div>
       <div className="btn-wrapper flex p-14 flex-row gap-3 ">
-        <div className="p-4  cursor-pointer ">
+        <div className="p-4  cursor-pointer " onClick={gotobookings}>
           <HiOutlineHome size={25}/>
-          <p>Dashboard</p>
+          <p>Bookings</p>
         </div> 
         <div className="p-4  cursor-pointer ">
           <CgProfile size={25}/>

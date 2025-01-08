@@ -8,6 +8,7 @@ import TimeSelection from "./pages/TimeSelection";
 import Success from "./pages/Success";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Getbookings from "./pages/Getbookings";
 import { AuthProvider } from  "./context/AuthContext"
 
 const App = () => {
@@ -67,6 +68,17 @@ const App = () => {
                                     <Navbar />
                                     <Success />
                                 </>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/getbookings"
+                        element={
+                            <ProtectedRoute>
+                                <>
+                                    <Navbar />
+                                    <Getbookings />
+                                 </>
                             </ProtectedRoute>
                         }
                     />
