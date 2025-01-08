@@ -4,34 +4,95 @@ import { useNavigate, useLocation } from "react-router-dom";
 const TimeSelection = () => {
   const [startTime, setStartTime] = useState("09:00"); // Default start time
   const [endTime, setEndTime] = useState("09:00"); // Default end time
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { fullCode } = location.state || {}; // Get fullCode from state
 
-  const handleConfirm = () => {
+  // Destructure all the data passed from Confirm
+  const {
+    fullCode,
+    classId,
+    courseName,
+    levelName,
+    representativeId,
+  } = location.state || {};
+  const handleConfirm = async () => {
     if (!startTime || !endTime) {
       alert("Please select both start and end times.");
       return;
     }
-
+  
     if (startTime >= endTime) {
       alert("End time must be later than start time.");
       return;
     }
-
-    console.log(`Time selected for class ${fullCode}:`);
-    console.log(`Start Time: ${startTime}`);
-    console.log(`End Time: ${endTime}`);
-    
-    // Navigate or handle further actions (e.g., save to database)
-    navigate("/success"); // Go back or navigate to another page
+  
+    // Convert start and end times to ISO format
+    const today = new Date().toISOString().split("T")[0]; // Get today's date (YYYY-MM-DD)
+    const start = new Date(`${today}T${startTime}`).toISOString();
+    const end = new Date(`${today}T${endTime}`).toISOString();
+  
+    // Ensure all required fields are included
+    const requestBody = {
+      representativeId, // Add representative ID to the payload
+      classId,          // Add class ID to the payload
+      timeRange: {
+        start,
+        end,
+      },
+      course: courseName,
+      level: levelName,
+    };
+  
+    console.log("Request Body:", requestBody);
+  
+    try {
+      setLoading(true);
+  
+      const response = await fetch("http://localhost:3003/api/v1/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error:", errorData);
+        alert("Failed to book the class. Please try again.");
+        return;
+      }
+  
+      const data = await response.json();
+      console.log("Booking Successful:", data);
+  
+      // Navigate to success page or handle success
+      alert("Class successfully booked!");
+      navigate("/success");
+    } catch (error) {
+      console.error("Error booking the class:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   return (
     <div className="time-selection-wrapper flex flex-col items-center p-6 bg-gray-100 rounded-lg shadow-md">
       <h3 className="text-xl font-semibold mb-4">
         Select Time for Class <span className="font-bold">{fullCode}</span>
       </h3>
+
+      {/* Display additional details */}
+      <div className="class-details text-sm mb-6">
+        <p><strong>Course Name:</strong> {courseName}</p>
+        <p><strong>Level Name:</strong> {levelName}</p>
+        <p><strong>Representative ID:</strong> {representativeId}</p>
+        <p><strong>Class ID:</strong> {classId}</p>
+      </div>
+
       <form className="max-w-[16rem] mx-auto grid grid-cols-2 gap-4 mb-6">
         <div>
           <label
@@ -40,33 +101,16 @@ const TimeSelection = () => {
           >
             Start time:
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <input
-              type="time"
-              id="start-time"
-              className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              min="09:00"
-              max="18:00"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              required
-            />
-          </div>
+          <input
+            type="time"
+            id="start-time"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            min="09:00"
+            max="18:00"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label
@@ -75,40 +119,29 @@ const TimeSelection = () => {
           >
             End time:
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <input
-              type="time"
-              id="end-time"
-              className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              min="09:00"
-              max="18:00"
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
-              required
-            />
-          </div>
+          <input
+            type="time"
+            id="end-time"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            min="09:00"
+            max="18:00"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+            required
+          />
         </div>
       </form>
+
       <button
         onClick={handleConfirm}
-        className="confirm-button px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+        disabled={loading}
+        className={`confirm-button px-4 py-2 rounded-lg transition ${
+          loading
+            ? "bg-gray-400 text-white cursor-not-allowed"
+            : "bg-blue-500 text-white hover:bg-blue-600"
+        }`}
       >
-        Confirm Time Selection
+        {loading ? "Booking..." : "Confirm Time Selection"}
       </button>
     </div>
   );

@@ -16,7 +16,17 @@ const SubclassesByBlock = () => {
         const response = await axios.get(
           `http://localhost:3003/api/v1/blocks/${blockId}/classes`
         );
-        setSubclasses(response.data);
+        const classes = response.data;
+
+        // Log the data to the console
+        console.log("Block Data:", classes);
+
+        // Log the _id of each class
+        classes.forEach((subclass) => {
+          console.log("Class ID:", subclass._id);
+        });
+
+        setSubclasses(classes);
       } catch (err) {
         setError(err.response?.data?.error || "Error fetching subclasses");
       } finally {
@@ -27,8 +37,8 @@ const SubclassesByBlock = () => {
     fetchSubclasses();
   }, [blockId]);
 
-  const handleClassClick = (fullCode) => {
-    navigate("/confirm", { state: { fullCode } }); // Navigate to the Confirm page with the fullCode
+  const handleClassClick = (fullCode, classId) => {
+    navigate("/confirm", { state: { fullCode, classId } }); // Pass fullCode and classId to Confirm
   };
 
   if (loading) {
@@ -45,19 +55,20 @@ const SubclassesByBlock = () => {
       <div className="subclasses-list grid grid-cols-3 gap-6">
         {subclasses.map((subclass) => (
           <div
-            key={subclass._id}
-            onClick={() => handleClassClick(subclass.fullCode)} // Make the entire item clickable
-            className="subclass-item border p-4 rounded-lg shadow-md hover:shadow-lg transition cursor-pointer"
+          key={subclass._id}
+          onClick={() => handleClassClick(subclass.fullCode, subclass._id)} // Pass _id to handleClassClick
+          className="subclass-item border p-4 rounded-lg shadow-md hover:shadow-lg transition cursor-pointer"
+        >
+          <p className="font-semibold">{subclass.fullCode}</p>
+          <p
+            className={`status text-sm ${
+              subclass.isAvailable ? "text-green-500" : "text-red-500"
+            }`}
           >
-            <p className="font-semibold">{subclass.fullCode}</p>
-            <p
-              className={`status text-sm ${
-                subclass.isAvailable ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {subclass.isAvailable ? "Available" : "Unavailable"}
-            </p>
-          </div>
+            {subclass.isAvailable ? "Available" : "Unavailable"}
+          </p>
+        </div>
+        
         ))}
       </div>
     </div>

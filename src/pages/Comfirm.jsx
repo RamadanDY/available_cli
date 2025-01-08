@@ -1,26 +1,28 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {useAuth} from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
-// import useAuth here to grab the data of the representative
 const Confirm = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { fullCode } = location.state || {}; // Get fullCode from state
- const {courseRep} = useAuth(); // grab the data of the representative
+  const { fullCode, classId } = location.state || {}; // Receive fullCode and classId
+  const { courseRep } = useAuth(); // Grab the data of the representative
 
- //courseName as course 
-//  level is levelname 
-// representativeId is the courseRepId
+  // Extract the needed values from courseRep
+  const { courseName, levelName, id: representativeId } = courseRep || {};
 
-// course: courseRep.courseName
-// level: courseRep.levelName
-// representativeId: courseRep.id
-// all this above with the time range 
- console.log(courseRep)
   const handleYes = () => {
-    navigate("/time-selection", { state: { fullCode } }); // Navigate to TimeSelection
+    navigate("/time-selection", {
+      state: {
+        fullCode,
+        classId,
+        courseName,
+        levelName,
+        representativeId,
+      },
+    }); // Pass all the required data to TimeSelection
   };
+  
 
   const handleNo = () => {
     console.log("Action canceled");
@@ -34,6 +36,15 @@ const Confirm = () => {
         Are you sure you want to perform this action for class{" "}
         <span className="font-bold">{fullCode}</span>?
       </p>
+
+      {/* Display course and representative details */}
+      <div className="course-details text-sm mb-4">
+        <p><strong>Course:</strong> {courseName}</p>
+        <p><strong>Level:</strong> {levelName}</p>
+        <p><strong>Representative ID:</strong> {representativeId}</p>
+        <p><strong>Class ID:</strong> {classId}</p>
+      </div>
+
       <div className="button-group flex space-x-4">
         <button
           onClick={handleYes}
