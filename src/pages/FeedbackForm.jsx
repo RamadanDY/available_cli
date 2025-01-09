@@ -18,7 +18,7 @@ function FeedbackForm() {
     setResponseMessage('');
 
     try {
-      const response = await axios.post('http://localhost:3003/api/v1/feedback', { message });
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API_BASE_URL}/feedback`,{ message });
       setResponseMessage('Feedback submitted successfully!');
       setMessage('');
     } catch (error) {

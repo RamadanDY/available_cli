@@ -14,7 +14,7 @@ const SubclassesByBlock = () => {
     const fetchSubclasses = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3003/api/v1/blocks/${blockId}/classes`
+           `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/blocks/${blockId}/classes`
         );
         const classes = response.data;
 

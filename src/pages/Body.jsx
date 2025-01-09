@@ -11,7 +11,7 @@ const Body = () => {
   useEffect(() => {
     const fetchBlockData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3003/api/v1/blocks`); // Correct API path
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_BASE_URL}/blocks`); // Correct API path
         setBlockData(response.data); // Update state with fetched data
         console.log("Fetched block data:", response.data); // Log data in the console
       } catch (err) {

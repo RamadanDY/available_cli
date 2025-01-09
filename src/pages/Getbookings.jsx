@@ -26,7 +26,7 @@ const Getbookings = () => {
     setError('');
     try {
       const response = await axios.get(
-        `http://localhost:3003/api/v1/bookings?representativeId=${id}`
+        ` ${import.meta.env.VITE_REACT_APP_API_BASE_URL}/bookings?representativeId=${id}`
       );
       setBookings(response.data);
     } catch (err) {
@@ -58,7 +58,7 @@ const Getbookings = () => {
 
     try {
       const response = await axios.patch(
-        `http://localhost:3003/api/v1/bookings/${bookingId}`,
+         `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/bookings/${bookingId}`,
         {
           timeRange: {
             start: updatedTimeRange.start,

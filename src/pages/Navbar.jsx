@@ -15,6 +15,13 @@ const Navbar = () => {
   const gotobookings = () => {
     navigate("/getbookings")
   }
+
+  const gotoFeedback =() => {
+    navigate('/feedbackform')
+  }
+  const home =() => {
+    navigate('/')
+  }
   return (
     <div className='navbar flex  items-center justify-between    ' >
       <div className="img-wrapper pl-20 items-center flex-row flex gap-4 cursor-pointer  ">
@@ -23,8 +30,12 @@ const Navbar = () => {
           CLHAS
         </h3>
       </div>
-      <div className="btn-wrapper flex p-14 flex-row gap-3 ">
-        <div className="p-4  cursor-pointer " onClick={gotobookings}>
+      <div className="btn-wrapper flex p-14 flex-row gap-3 "   >
+        <div className="p-4  cursor-pointer" onClick={home}>
+          <HiOutlineHome size={25}/>
+          <p>Home</p>
+        </div> 
+        <div className="p-4  cursor-pointer" onClick={gotobookings}>
           <HiOutlineHome size={25}/>
           <p>Bookings</p>
         </div> 
@@ -32,7 +43,7 @@ const Navbar = () => {
           <CgProfile size={25}/>
           <p>My Profile</p>
         </div> 
-        <div className="p-4  cursor-pointer ">  
+        <div className="p-4  cursor-pointer" onClick={gotoFeedback}>  
           <FaRegMessage size={25}/>
           <p>Suggestions</p>
         </div> 
