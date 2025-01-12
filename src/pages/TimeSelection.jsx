@@ -49,7 +49,7 @@ const TimeSelection = () => {
     try {
       setLoading(true);
   
-      const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_BASE_URL}/bookings`, {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_BASE_URL}/api/v1/bookings`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

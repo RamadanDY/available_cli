@@ -26,7 +26,7 @@ const Getbookings = () => {
     setError('');
     try {
       const response = await axios.get(
-        ` ${import.meta.env.VITE_REACT_APP_API_BASE_URL}/bookings?representativeId=${id}`
+        ` ${import.meta.env.VITE_REACT_APP_API_BASE_URL}/api/v1/bookings?representativeId=${id}`
       );
       setBookings(response.data);
     } catch (err) {
@@ -58,7 +58,7 @@ const Getbookings = () => {
 
     try {
       const response = await axios.patch(
-         `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/bookings/${bookingId}`,
+         `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/api/v1/bookings/${bookingId}`,
         {
           timeRange: {
             start: updatedTimeRange.start,

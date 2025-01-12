@@ -14,7 +14,7 @@ const Body = () => {
     setError(null); // Reset error state on retry
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/blocks`
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/api/v1/blocks`
       );
       setBlockData(response.data);
       console.log("Fetched block data:", response.data);
