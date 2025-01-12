@@ -20,6 +20,9 @@ const SubclassesByBlock = () => {
 
         // Log the data to the console
         console.log("Block Data:", classes);
+        if(!classes){
+          alert("cannot fetch data")
+        }
 
         // Log the _id of each class
         classes.forEach((subclass) => {
@@ -56,7 +59,7 @@ const SubclassesByBlock = () => {
         {subclasses.map((subclass) => (
           <div
           key={subclass._id}
-          onClick={() => handleClassClick(subclass.fullCode, subclass._id)} // Pass _id to handleClassClick
+          onClick={() => handleClassClick(subclass.fullCode, subclass._id)} 
           className="subclass-item border p-4 rounded-lg shadow-md hover:shadow-lg transition cursor-pointer"
         >
           <p className="font-semibold">{subclass.fullCode}</p>
