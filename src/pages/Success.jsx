@@ -9,7 +9,7 @@ const Success = () => {
   }
   return (
     <>
-     <div>Success got to work on the design for this </div>
+     <div>Success got to work on this later </div>
      <button className="gohome" onClick={Gohome}>Home</button></>
   )
 }
