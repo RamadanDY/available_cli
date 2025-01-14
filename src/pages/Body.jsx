@@ -10,7 +10,7 @@ const Body = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchBlockData = async () => {
-    setLoading(true); // Reset loading state on retry
+    setLoading(true);  
     setError(null); // Reset error state on retry
     try {
       const response = await axios.get(
