@@ -9,7 +9,6 @@ const Body = () => {
   const [blockData, setBlockData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [loaderCompleted, setLoaderCompleted] = useState(false); // Track loader completion
 
   const fetchBlockData = async () => {
     setLoading(true);
@@ -32,26 +31,25 @@ const Body = () => {
     fetchBlockData(); // Fetch data on mount
   }, []);
 
-  const handleLoaderComplete = () => {
-    setLoaderCompleted(true); // Mark loader as completed
-  };
-
   return (
     <div className="flex flex-col text-center pt-28 justify-center align-center">
       <div className="header-wrapper text-3xl font-bold pb-12">
         <div className="text-wrapper">PLEASE SELECT A BLOCK FOR YOUR LECTURE</div>
       </div>
       <div className="blocks-wrapper grid grid-cols-3 justify-center mx-auto gap-x-48 gap-y-10">
-        {loading || !loaderCompleted ? (
-          <div className="flex flex-col items-center">
+        {loading ? (
+          <div className="loading-wrappe">
             <DotLottieReact
+              className="chil"
               src="https://lottie.host/79e5a9e6-fd07-488a-be5a-f094fae5cc9b/pVuARXfuCW.lottie"              
               loop
               autoplay
-              onComplete={handleLoaderComplete} // Trigger when animation finishes
+              style={{ width: "200px", height: "200px" ,display: "flex",
+              justifyContent: "center",
+              alignItems: "center",}}
+
             />
-            <p>Loading blocks...</p>
-          </div>
+           </div>
         ) : error ? (
           <div>
             <p>{error}</p>
@@ -85,6 +83,7 @@ const Body = () => {
 };
 
 export default Body;
+
 
  
 

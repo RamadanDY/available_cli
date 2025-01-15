@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react"; // Import DotLottieReact
 import "../App.css";
 
 const SubclassesByBlock = () => {
   const { blockId } = useParams();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const [subclasses, setSubclasses] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,20 +15,16 @@ const SubclassesByBlock = () => {
     const fetchSubclasses = async () => {
       try {
         const response = await axios.get(
-           `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/api/v1/blocks/${blockId}/classes`
+          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/api/v1/blocks/${blockId}/classes`
         );
         const classes = response.data;
 
-        // Log the data to the console
+        // Log data for debugging
         console.log("Block Data:", classes);
-        if(!classes){
-          alert("cannot fetch data")
-        }
 
-        // Log the _id of each class
-        classes.forEach((subclass) => {
-          console.log("Class ID:", subclass._id);
-        });
+        if (!classes) {
+          alert("Cannot fetch data");
+        }
 
         setSubclasses(classes);
       } catch (err) {
@@ -41,15 +38,24 @@ const SubclassesByBlock = () => {
   }, [blockId]);
 
   const handleClassClick = (fullCode, classId) => {
-    navigate("/confirm", { state: { fullCode, classId } }); // Pass fullCode and classId to Confirm
+    navigate("/confirm", { state: { fullCode, classId } });
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="loading-wrapper flex justify-center items-center h-screen">
+        <DotLottieReact
+          src="https://lottie.host/79e5a9e6-fd07-488a-be5a-f094fae5cc9b/pVuARXfuCW.lottie"
+          loop
+          autoplay
+          style={{ width: "200px", height: "200px" }}
+        />
+      </div>
+    );
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <p className="text-center text-red-500">{error}</p>;
   }
 
   return (
@@ -58,20 +64,19 @@ const SubclassesByBlock = () => {
       <div className="subclasses-list grid grid-cols-3 gap-6">
         {subclasses.map((subclass) => (
           <div
-          key={subclass._id}
-          onClick={() => handleClassClick(subclass.fullCode, subclass._id)} 
-          className="subclass-item border p-4 rounded-lg shadow-md hover:shadow-lg transition cursor-pointer"
-        >
-          <p className="font-semibold">{subclass.fullCode}</p>
-          <p
-            className={`status text-sm ${
-              subclass.isAvailable ? "text-green-500" : "text-red-500"
-            }`}
+            key={subclass._id}
+            onClick={() => handleClassClick(subclass.fullCode, subclass._id)}
+            className="subclass-item border p-4 rounded-lg shadow-md hover:shadow-lg transition cursor-pointer"
           >
-            {subclass.isAvailable ? "Available" : "Unavailable"}
-          </p>
-        </div>
-        
+            <p className="font-semibold">{subclass.fullCode}</p>
+            <p
+              className={`status text-sm ${
+                subclass.isAvailable ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {subclass.isAvailable ? "Available" : "Unavailable"}
+            </p>
+          </div>
         ))}
       </div>
     </div>

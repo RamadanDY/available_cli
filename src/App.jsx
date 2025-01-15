@@ -11,7 +11,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import FeedbackForm from "./pages/FeedbackForm";
 import Getbookings from "./pages/Getbookings";
 import { AuthProvider } from  "./context/AuthContext"
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 
 const App = () => {
